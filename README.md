@@ -1,4 +1,4 @@
-# helloworld-tonic
+# helloworld-tonic-bsr
 
 A Rust-based protobuf/gRPC example using buf.Build BSR.
 This example is based upon the helloworld-tonic sample at https://github.com/hyperium/tonic/blob/master/examples/helloworld-tutorial.md.
