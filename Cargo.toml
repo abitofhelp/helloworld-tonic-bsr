@@ -1,0 +1,30 @@
+[package]
+name = "helloworld-tonic-bsr"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]] # Bin to run the HelloWorld gRPC server
+name = "helloworld-server"
+path = "src/server.rs"
+
+[[bin]] # Bin to run the HelloWorld gRPC client
+name = "helloworld-client"
+path = "src/client.rs"
+
+[dependencies]
+pbjson = "0.6.0"
+pbjson-types = "0.6.0"
+tonic = { version = "0.10.2", features = ["gzip", "tls"] }
+prost = "0.12.1"
+tokio = { version = "1.33.0", features = ["macros", "rt-multi-thread"] }
+tokio-stream = { version = "0.1", features = ["net"] }
+serde = "1.0.189"
+tonic-reflection = "0.10.2"
+
+[build-dependencies]
+tonic-build = "0.10.2"
+
+[dev-dependencies]
+uuid = { version = "1.2.2", features = ["v4", "fast-rng"] }
+futures-util = "0.3.25"
+anyhow = "1"
