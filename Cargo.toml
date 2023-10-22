@@ -1,6 +1,6 @@
 [package]
 name = "helloworld-tonic-bsr"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 build = "build.rs"
 description = "A Rust-based protobuf/gRPC example using buf.Build BSR.  This example is based upon the helloworld-tonic sample at https://github.com/hyperium/tonic/blob/master/examples/helloworld-tutorial.md."
