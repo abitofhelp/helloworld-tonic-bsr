@@ -1,7 +1,8 @@
 PROJECT_DIR=$HOME/Git/rust/abitofhelp/helloworld-tonic-bsr
 PROTO_DIR=$(PROJECT_DIR)/proto
+VERSION=
 
-.PHONY:buflist bufclean buflint bufgen bufbld
+.PHONY:buflist 1.bufclean 2.buflint 3.bufgen 4.bufbld cratelist 1.cratepub_dryrun 2.cratepub
 
 buflist:
 	@buf ls-files
@@ -17,4 +18,13 @@ buflist:
 
 4.bufbld:
 	@buf build
+
+cratelist:
+	@cargo package --list
+
+1.cratepub_dryrun:
+	@cargo publish --dry-run
+
+2.cratepub:
+	@cargo publish
 

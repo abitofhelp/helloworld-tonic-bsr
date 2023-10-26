@@ -1,6 +1,6 @@
 [package]
 name = "helloworld-tonic-bsr"
-version = "0.1.1"
+version = "0.2.0"
 edition = "2021"
 build = "build.rs"
 description = "A Rust-based protobuf/gRPC example using buf.Build BSR.  This example is based upon the helloworld-tonic sample at https://github.com/hyperium/tonic/blob/master/examples/helloworld-tutorial.md."
@@ -9,6 +9,10 @@ keywords = ["rust", "protobuf", "grpc", "bsr"]
 license-file = "LICENSE"
 readme = "README.md"
 repository = "https://github.com/abitofhelp/helloworld-tonic-bsr.git"
+
+[lib] # Lib of generated Rust code consumed by the client and server.
+name = "helloworld"
+path = "src/lib.rs"
 
 [[bin]] # Bin to run the HelloWorld gRPC server
 name = "helloworld-server"
@@ -32,6 +36,6 @@ tonic-reflection = "0.10.2"
 tonic-build = "0.10.2"
 
 [dev-dependencies]
-uuid = { version = "1.2.2", features = ["v4", "fast-rng"] }
-futures-util = "0.3.25"
 anyhow = "1"
+futures-util = "0.3.25"
+uuid = { version = "1.2.2", features = ["v4", "fast-rng"] }

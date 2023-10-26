@@ -1,17 +1,11 @@
 mod gen;
 
-pub mod helloworld {
-    pub mod v1 {
-        include!("gen/helloworld.v1.rs");
-    }
-}
-
 use tonic::{transport::Server, Request, Response, Status};
 
-use helloworld::v1::greeter_service_server::{GreeterService, GreeterServiceServer};
-use helloworld::v1::{SayHelloRequest, SayHelloResponse};
-
-use crate::helloworld::v1::greeter_service_server;
+use helloworld::helloworld::v1::{
+    greeter_service_server::{ GreeterService, GreeterServiceServer },
+    { SayHelloRequest, SayHelloResponse }
+};
 
 #[derive(Debug, Default)]
 pub struct MyGreeter {}
@@ -24,7 +18,7 @@ impl GreeterService for MyGreeter {
     ) -> Result<Response<SayHelloResponse>, Status> {
         println!("Got a request: {:?}", request);
 
-        let reply = helloworld::v1::SayHelloResponse {
+        let reply = SayHelloResponse {
             message: format!("Hello {}!", request.into_inner().name).into(),
         };
 
@@ -39,7 +33,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     println!("\n>> Starting the GreeterService server: {}", addr);
     Server::builder()
-        .add_service(greeter_service_server::GreeterServiceServer::new(greeter))
+        .add_service(GreeterServiceServer::new(greeter))
         .serve(addr)
         .await?;
 
