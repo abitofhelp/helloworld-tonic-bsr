@@ -22,9 +22,9 @@ buflist:
 cratelist:
 	@cargo package --list
 
-1.cratepub_dryrun:
+cratepub_dryrun:
 	@cargo publish --dry-run
 
-2.cratepub:
+cratepub:
 	@cargo publish
 
