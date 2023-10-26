@@ -14,11 +14,11 @@ repository = "https://github.com/abitofhelp/helloworld-tonic-bsr.git"
 name = "helloworld"
 path = "src/lib.rs"
 
-[[bin]] # Bin to run the HelloWorld gRPC server
+[[bin]] # Bin to build the HelloWorld gRPC server
 name = "helloworld-server"
 path = "src/server.rs"
 
-[[bin]] # Bin to run the HelloWorld gRPC client
+[[bin]] # Bin to build the HelloWorld gRPC client
 name = "helloworld-client"
 path = "src/client.rs"
 
