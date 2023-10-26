@@ -11,27 +11,79 @@ permissions:
 
 jobs:
   release_job:
-    name: release ${{ matrix.target }}
-    runs-on: ubuntu-latest
+    name: release ${{ matrix.platform.release_for }}
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - target: x86_64-pc-windows-gnu
-            archive: zip
-          - target: x86_64-apple-darwin
-            archive: zip
+        platform:
+          - release_for: FreeBSD-x86_64
+            os: ubuntu-20.04
+            target: x86_64-unknown-freebsd
+            toolchain: "nightly"
+            bin: helloworld-client
+            name: helloworld-client-FreeBSD-x86_64.tar.gz
+            command: build
+
+          - release_for: Windows-x86_64
+            os: windows-latest
+            target: x86_64-pc-windows-msvc
+            toolchain: "nightly"
+            bin: helloworld-client.exe
+            name: helloworld-client-Windows-x86_64.zip
+            command: build
+
+          - release_for: macOS-x86_64
+            os: macOS-latest
+            target: x86_64-apple-darwin
+            toolchain: "nightly"
+            bin: helloworld-client
+            name: helloworld-client-Darwin-x86_64.tar.gz
+            command: build
+
+
+          - release_for: FreeBSD-x86_64
+            os: ubuntu-20.04
+            target: x86_64-unknown-freebsd
+            toolchain: "nightly"
+            bin: helloworld-server
+            name: helloworld-server-FreeBSD-x86_64.tar.gz
+            command: build
+
+          - release_for: Windows-x86_64
+            os: windows-latest
+            target: x86_64-pc-windows-msvc
+            toolchain: "nightly"
+            bin: helloworld-server.exe
+            name: helloworld-server-Windows-x86_64.zip
+            command: build
+
+          - release_for: macOS-x86_64
+            os: macOS-latest
+            target: x86_64-apple-darwin
+            toolchain: "nightly"
+            bin: helloworld-server
+            name: helloworld-server-Darwin-x86_64.tar.gz
+            command: build
+    runs-on: ${{ matrix.platform.os }}
     steps:
       - name: Check-out Source
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0            # See: https://goreleaser.com/ci/actions/
 
 #      - name: Install Cosign
 #        uses: sigstore/cosign-installer@main
 #
 #      - name: Check Cosign installation
 #        run: cosign version
+
+      - name: Build binary
+        uses: houseabsolute/actions-rust-cross@v0.0.8
+        with:
+          command: ${{ matrix.platform.command }}
+          target: ${{ matrix.platform.target }}
+          toolchain: "nightly"
+          args: "--locked --release"
+          strip: true
+          GITHUB_TOKEN: ${{ secrets.REPO_SECRET }}
 
       - name: Build Targets
         uses: rust-build/rust-build.action@v1.4.4
