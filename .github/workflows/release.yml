@@ -82,7 +82,7 @@ jobs:
           target: ${{ matrix.platform.target }}
           toolchain: "nightly"
           args: "--locked --release"
-          strip: true
+          strip: false
           GITHUB_TOKEN: ${{ secrets.REPO_SECRET }}
 
       - name: Build Targets
