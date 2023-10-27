@@ -20,7 +20,7 @@ jobs:
             os: ubuntu-20.04
             target: x86_64-unknown-freebsd
             toolchain: "nightly"
-            bin: helloworld-client
+            bin: helloworld-client-FreeBSD-x86_64
             name: helloworld-client-FreeBSD-x86_64.tar.gz
             command: build
 
@@ -28,7 +28,7 @@ jobs:
             os: windows-latest
             target: x86_64-pc-windows-msvc
             toolchain: "nightly"
-            bin: helloworld-client.exe
+            bin: helloworld-client-Windows-x86_64.exe
             name: helloworld-client-Windows-x86_64.zip
             command: build
 
@@ -36,7 +36,7 @@ jobs:
             os: macOS-latest
             target: x86_64-apple-darwin
             toolchain: "nightly"
-            bin: helloworld-client
+            bin: helloworld-client-Darwin-x86_64
             name: helloworld-client-Darwin-x86_64.tar.gz
             command: build
 
@@ -45,7 +45,7 @@ jobs:
             os: ubuntu-20.04
             target: x86_64-unknown-freebsd
             toolchain: "nightly"
-            bin: helloworld-server
+            bin: helloworld-server-FreeBSD-x86_64
             name: helloworld-server-FreeBSD-x86_64.tar.gz
             command: build
 
@@ -53,7 +53,7 @@ jobs:
             os: windows-latest
             target: x86_64-pc-windows-msvc
             toolchain: "nightly"
-            bin: helloworld-server.exe
+            bin: helloworld-server-Windows-x86_64.exe
             name: helloworld-server-Windows-x86_64.zip
             command: build
 
@@ -61,7 +61,7 @@ jobs:
             os: macOS-latest
             target: x86_64-apple-darwin
             toolchain: "nightly"
-            bin: helloworld-server
+            bin: helloworld-server-Darwin-x86_64
             name: helloworld-server-Darwin-x86_64.tar.gz
             command: build
     runs-on: ${{ matrix.platform.os }}
