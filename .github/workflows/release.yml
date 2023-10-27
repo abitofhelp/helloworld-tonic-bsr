@@ -1,104 +1,112 @@
-name: Release
-
-on:
-  push:
-    tags:
-      - "v*.*.*"
-
-permissions:
-  contents: write
-  packages: write
-
-jobs:
-  release_job:
-    name: release ${{ matrix.platform.release_for }}
-    strategy:
-      fail-fast: false
-      matrix:
-        platform:
-          - release_for: FreeBSD-x86_64
-            os: ubuntu-20.04
-            target: x86_64-unknown-freebsd
-            toolchain: "nightly"
-            bin: helloworld-client-FreeBSD-x86_64
-            name: helloworld-client-FreeBSD-x86_64.tar.gz
-            command: build
-
-          - release_for: FreeBSD-x86_64
-            os: ubuntu-20.04
-            target: x86_64-unknown-freebsd
-            toolchain: "nightly"
-            bin: helloworld-server-FreeBSD-x86_64
-            name: helloworld-server-FreeBSD-x86_64.tar.gz
-            command: build
+# TODO: This build script is successful to the point where linking has to be performed.
 #
-#          - release_for: Windows-x86_64
-#            os: windows-latest
-#            target: x86_64-pc-windows-msvc
-#            toolchain: "nightly"
-#            bin: helloworld-client-Windows-x86_64.exe
-#            name: helloworld-client-Windows-x86_64.zip
-#            command: build
+# The error messages:
+#   ::info::Switching to src dir ""
+#   ::info::Installing additional linkers
+#   Error:  is not supported
+#   Error: Build failed
 
-#          - release_for: Windows-x86_64
-#            os: windows-latest
-#            target: x86_64-pc-windows-msvc
+#name: Release
+#
+#on:
+#  push:
+#    tags:
+#      - "v*.*.*"
+#
+#permissions:
+#  contents: write
+#  packages: write
+#
+#jobs:
+#  release_job:
+#    name: release ${{ matrix.platform.release_for }}
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        platform:
+#          - release_for: FreeBSD-x86_64
+#            os: ubuntu-20.04
+#            target: x86_64-unknown-freebsd
 #            toolchain: "nightly"
-#            bin: helloworld-server-Windows-x86_64.exe
-#            name: helloworld-server-Windows-x86_64.zip
-#            command: build
-
-#          - release_for: macOS-x86_64
-#            os: macOS-latest
-#            target: x86_64-apple-darwin
-#            toolchain: "nightly"
-#            bin: helloworld-client-Darwin-x86_64
-#            name: helloworld-client-Darwin-x86_64.tar.gz
+#            bin: helloworld-client-FreeBSD-x86_64
+#            name: helloworld-client-FreeBSD-x86_64.tar.gz
 #            command: build
 #
-#          - release_for: macOS-x86_64
-#            os: macOS-latest
-#            target: x86_64-apple-darwin
+#          - release_for: FreeBSD-x86_64
+#            os: ubuntu-20.04
+#            target: x86_64-unknown-freebsd
 #            toolchain: "nightly"
-#            bin: helloworld-server-Darwin-x86_64
-#            name: helloworld-server-Darwin-x86_64.tar.gz
+#            bin: helloworld-server-FreeBSD-x86_64
+#            name: helloworld-server-FreeBSD-x86_64.tar.gz
 #            command: build
-    runs-on: ubuntu-latest  #${{ matrix.platform.os }}
-    steps:
-      - name: Check-out Source
-        uses: actions/checkout@v3
-
-#      - name: Install Cosign
-#        uses: sigstore/cosign-installer@main
+##
+##          - release_for: Windows-x86_64
+##            os: windows-latest
+##            target: x86_64-pc-windows-msvc
+##            toolchain: "nightly"
+##            bin: helloworld-client-Windows-x86_64.exe
+##            name: helloworld-client-Windows-x86_64.zip
+##            command: build
 #
-#      - name: Check Cosign installation
-#        run: cosign version
-
-      - name: Build binary
-        uses: houseabsolute/actions-rust-cross@v0.0.8
-        with:
-          command: ${{ matrix.platform.command }}
-          target: ${{ matrix.platform.target }}
-          toolchain: "nightly"
-          args: "--locked --release"
-          strip: false
-          GITHUB_TOKEN: ${{ secrets.REPO_SECRET }}
-
-      - name: Build Targets
-        uses: rust-build/rust-build.action@v1.4.4
-        with:
-          RUSTTARGET: ${{ matrix.target }}
-          ARCHIVE_TYPES: ${{ matrix.archive }}
-          UPLOAD_MODE: none
-        env:
-          GITHUB_TOKEN: ${{ secrets.REPO_SECRET }}
-          #COSIGN_PWD: ${{ secrets.COSIGN_PWD }}
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v3.1.3
-        with:
-          name: Upload Binaries
-          path: |
-            ${{ steps.compile.outputs.BUILT_ARCHIVE }}
-            ${{ steps.compile.outputs.BUILT_CHECKSUM }}
+##          - release_for: Windows-x86_64
+##            os: windows-latest
+##            target: x86_64-pc-windows-msvc
+##            toolchain: "nightly"
+##            bin: helloworld-server-Windows-x86_64.exe
+##            name: helloworld-server-Windows-x86_64.zip
+##            command: build
+#
+##          - release_for: macOS-x86_64
+##            os: macOS-latest
+##            target: x86_64-apple-darwin
+##            toolchain: "nightly"
+##            bin: helloworld-client-Darwin-x86_64
+##            name: helloworld-client-Darwin-x86_64.tar.gz
+##            command: build
+##
+##          - release_for: macOS-x86_64
+##            os: macOS-latest
+##            target: x86_64-apple-darwin
+##            toolchain: "nightly"
+##            bin: helloworld-server-Darwin-x86_64
+##            name: helloworld-server-Darwin-x86_64.tar.gz
+##            command: build
+#    runs-on: ubuntu-latest  #${{ matrix.platform.os }}
+#    steps:
+#      - name: Check-out Source
+#        uses: actions/checkout@v3
+#
+##      - name: Install Cosign
+##        uses: sigstore/cosign-installer@main
+##
+##      - name: Check Cosign installation
+##        run: cosign version
+#
+#      - name: Build binary
+#        uses: houseabsolute/actions-rust-cross@v0.0.8
+#        with:
+#          command: ${{ matrix.platform.command }}
+#          target: ${{ matrix.platform.target }}
+#          toolchain: "nightly"
+#          args: "--locked --release"
+#          strip: false
+#          GITHUB_TOKEN: ${{ secrets.REPO_SECRET }}
+#
+#      - name: Build Targets
+#        uses: rust-build/rust-build.action@v1.4.4
+#        with:
+#          RUSTTARGET: ${{ matrix.target }}
+#          ARCHIVE_TYPES: ${{ matrix.archive }}
+#          UPLOAD_MODE: none
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.REPO_SECRET }}
+#          #COSIGN_PWD: ${{ secrets.COSIGN_PWD }}
+#
+#      - name: Upload Artifacts
+#        uses: actions/upload-artifact@v3.1.3
+#        with:
+#          name: Upload Binaries
+#          path: |
+#            ${{ steps.compile.outputs.BUILT_ARCHIVE }}
+#            ${{ steps.compile.outputs.BUILT_CHECKSUM }}
 
