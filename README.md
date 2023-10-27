@@ -1,7 +1,6 @@
 # helloworld-tonic-bsr
 
 A Rust-based protobuf/gRPC example using buf.Build BSR.
-Please visit the repository to view the complete solution: client, server, and lib.
 
 ## Example grpcurl commands:
 
